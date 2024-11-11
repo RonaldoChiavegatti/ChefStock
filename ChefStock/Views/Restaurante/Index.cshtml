@@ -1,0 +1,112 @@
+@{
+    var restaurante = ViewData["Restaurante"] as Restaurante;  // Cast seguro para Restaurante
+}
+
+<div class="container mt-5">
+    <h3 class="text-center mb-4">Gerenciamento de Restaurante</h3>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    <!-- Informações do Restaurante -->
+    <div class="card mb-4 shadow">
+        <div class="card-header bg-primary text-white">
+            <h5>Informações do Restaurante</h5>
+        </div>
+        <div class="card-body">
+            <form asp-action="EditarRestaurante" method="post">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="nomeRestaurante" class="form-label">Nome do Restaurante</label>
+                        <!-- Verifica se 'restaurante' não é nulo antes de acessar as propriedades -->
+                        <input type="text" class="form-control" id="nomeRestaurante" name="Nome" value="@restaurante?.Nome ?? "" " required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="emailRestaurante" class="form-label">Email</label>
+                        <!-- Verifica se 'restaurante' não é nulo antes de acessar as propriedades -->
+                        <input type="email" class="form-control" id="emailRestaurante" name="Email" value="@restaurante?.Email ?? "" " required>
+                    </div>
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-warning">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Gerenciamento de Funcionários -->
+    <div class="card shadow">
+        <div class="card-header bg-secondary text-white">
+            <h5>Gerenciamento de Funcionários</h5>
+        </div>
+        <div class="card-body">
+            <form asp-action="CadastrarFuncionario" method="post" class="mb-4">
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="nomeFuncionario" class="form-label">Nome do Funcionário</label>
+                        <input type="text" class="form-control" id="nomeFuncionario" name="Nome" placeholder="Nome do Funcionário" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="emailFuncionario" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="emailFuncionario" name="Email" placeholder="Email do Funcionário" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="senhaFuncionario" class="form-label">Senha</label>
+                        <input type="password" class="form-control" id="senhaFuncionario" name="Senha" placeholder="Senha do Funcionário" required>
+                    </div>
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-success">Cadastrar Funcionário</button>
+                </div>
+            </form>
+
+            <!-- Lista de Funcionários -->
+            <h6 class="text-muted">Funcionários Cadastrados</h6>
+            <table class="table table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (ViewData["Funcionarios"] != null)
+                    {
+                        var funcionarios = ViewData["Funcionarios"] as List<Funcionario>;
+                        if (funcionarios != null && funcionarios.Any())
+                        {
+                            foreach (var funcionario in funcionarios)
+                            {
+                                <tr>
+                                    <!-- Usando o operador ?. para garantir que o funcionario não seja null -->
+                                    <td>@funcionario?.Nome</td>
+                                    <td>@funcionario?.Email</td>
+                                    <td>
+                                        <a href="@Url.Action("DeletarFuncionario", "GerRestaurante", new { id = funcionario?.Email })" class="btn btn-sm btn-danger">Deletar</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="3" class="text-center">Nenhum funcionário cadastrado.</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="3" class="text-center">Nenhum funcionário encontrado.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

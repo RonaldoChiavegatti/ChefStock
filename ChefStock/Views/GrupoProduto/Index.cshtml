@@ -1,0 +1,38 @@
+@model IEnumerable<ChefStock.Models.GrupoProduto>
+
+@{
+    ViewData["Title"] = "Lista de Produtos";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a href="@Url.Action("Create", "GrupoProduto")" class="btn btn-primary">Adicionar Novo Produto</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Descrição</th>
+            <th>Quantidade</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var produto in Model)
+        {
+            <tr>
+                <td>@produto.Id</td>
+                <td>@produto.Nome</td>
+                <td>@produto.Descricao</td>
+                <td>@produto.Quantidade</td>
+                <td>
+                    <a href="@Url.Action("Edit", "GrupoProduto", new { id = produto.Id })" class="btn btn-warning">Editar</a>
+                    <a href="@Url.Action("Delete", "GrupoProduto", new { id = produto.Id })" class="btn btn-danger">Deletar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

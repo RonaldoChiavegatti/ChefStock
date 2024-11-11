@@ -1,0 +1,27 @@
+@model ChefStock.Models.GrupoProduto
+
+@{
+    ViewData["Title"] = "Criar Novo Grupo de Produto";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-action="Create">
+    <div class="form-group">
+        <label for="Nome">Nome</label>
+        <input type="text" class="form-control" id="Nome" name="Nome" value="@Model?.Nome" required />
+    </div>
+
+    <div class="form-group">
+        <label for="Descricao">Descrição</label>
+        <input type="text" class="form-control" id="Descricao" name="Descricao" value="@Model?.Descricao" required />
+    </div>
+
+    <div class="form-group">
+        <label for="Quantidade">Quantidade</label>
+        <input type="number" class="form-control" id="Quantidade" name="Quantidade" value="@Model?.Quantidade" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Salvar</button>
+    <a href="@Url.Action("Index", "GrupoProduto")" class="btn btn-secondary">Cancelar</a>
+</form>
